@@ -1,0 +1,9 @@
+{
+  "name": "campusfich-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "astro dev", "build": "astro build", "preview": "astro preview", "check": "astro check" },
+  "dependencies": { "astro": "^5.0.0", "zod": "^3.23.8" },
+  "devDependencies": { "@astrojs/check": "^0.9.3", "@astrojs/tailwind": "^5.1.0", "tailwindcss": "^3.4.13", "typescript": "^5.7.2" }
+}

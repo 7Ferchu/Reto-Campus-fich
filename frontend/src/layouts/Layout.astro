@@ -1,0 +1,6 @@
+---
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+const { title = 'Campus FICH' } = Astro.props;
+---
+<!doctype html><html lang="es"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /><meta name="description" content="Sistema de reservas deportivas Campus FICH" /><title>{title}</title></head><body><Header /><main><slot /></main><footer id="contacto" class="border-t border-white/10 bg-ink py-10"><div class="container-page text-sm text-mist/70">© {new Date().getFullYear()} Campus FICH · Deporte, formación y comunidad.</div></footer></body></html>

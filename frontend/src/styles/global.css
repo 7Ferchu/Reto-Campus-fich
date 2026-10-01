@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Caveat:wght@600;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; background: #03131f; color: white; font-family: Montserrat, sans-serif; }
+@layer components {
+  .container-page { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+  .btn-primary { @apply inline-flex items-center justify-center rounded-full bg-lime px-6 py-3 font-bold text-ink transition hover:scale-[1.02] hover:bg-white focus:outline-none focus:ring-2 focus:ring-lime; }
+  .btn-secondary { @apply inline-flex items-center justify-center rounded-full border border-lime/70 px-6 py-3 font-semibold transition hover:bg-lime hover:text-ink; }
+  .field { @apply mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none placeholder:text-white/35 focus:border-lime focus:ring-1 focus:ring-lime; }
+  .panel { @apply rounded-2xl border border-white/10 bg-midnight/80 p-6 shadow-neon; }
+}

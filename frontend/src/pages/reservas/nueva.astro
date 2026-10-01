@@ -1,0 +1,10 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+<Layout title="Nueva reserva | Campus FICH"><section class="min-h-screen bg-ink px-5 pb-20 pt-36"><div class="mx-auto max-w-xl"><p class="font-display text-xl uppercase tracking-widest text-lime">Disponibilidad</p><h1 class="font-display text-6xl font-black uppercase">Nueva reserva</h1><div class="panel mt-8"><form id="form" class="space-y-5"><label class="block text-sm font-semibold">Horario<select id="schedules" class="field" name="id_horario"><option>Cargando...</option></select></label><label class="block text-sm font-semibold">Fecha<input class="field" name="fecha_reserva" type="date" /></label><label class="block text-sm font-semibold">Observaciones<textarea class="field" name="observaciones" rows="3"></textarea></label><p id="message" class="min-h-5 text-sm text-red-300"></p><button class="btn-primary w-full">Confirmar reserva</button></form></div></div></section></Layout>
+<script>
+  import { get, post } from '@/lib/api'; import { requireSession } from '@/lib/guard'; import { reservationSchema } from '@/lib/validators'; import type { Schedule } from '@/types/api'; requireSession('solicitante');
+  const form = document.querySelector('form')!; const select = document.querySelector<HTMLSelectElement>('#schedules')!; const message = document.querySelector('#message');
+  try { const rows = await get<Schedule[]>('/horarios'); select.innerHTML = rows.filter((r) => r.estado === 'disponible').map((r) => `<option value="${r.id_horario}">${r.dia_semana} · ${r.hora_inicio} - ${r.hora_fin} · cancha ${r.id_cancha}</option>`).join(''); } catch (e) { message!.textContent = e instanceof Error ? e.message : 'No fue posible cargar horarios'; }
+  form.addEventListener('submit', async (event) => { event.preventDefault(); const parsed = reservationSchema.safeParse(Object.fromEntries(new FormData(form))); if (!parsed.success) { message!.textContent = parsed.error.issues[0].message; return; } try { await post('/reservas', parsed.data); location.href = '/reservas'; } catch (e) { message!.textContent = e instanceof Error ? e.message : 'No fue posible crear la reserva'; } });
+</script>
