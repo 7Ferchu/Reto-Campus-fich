@@ -6,11 +6,13 @@
       "framework": "hono",
       "runtime": "nodejs22.x",
       "entrypoint": "src/app.ts",
+      "installCommand": "npm ci",
       "buildCommand": "npm run build"
     },
     "frontend": {
       "root": "frontend",
       "framework": "astro",
+      "installCommand": "npm ci",
       "buildCommand": "npm run build",
       "outputDirectory": "dist"
     }
