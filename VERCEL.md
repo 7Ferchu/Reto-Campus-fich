@@ -1,23 +1,25 @@
 # Despliegue de CampusFICH en Vercel
 
-La documentación oficial de Vercel recomienda crear dos proyectos para este monorepo, uno por aplicación. No se utiliza un `vercel.json` en la raíz para combinar Astro y Hono con la configuración legacy `builds`.
+El repositorio utiliza Vercel Services mediante el `vercel.json` de la raíz. Astro y Hono se construyen como servicios independientes dentro de un único proyecto y comparten el dominio.
 
 ## Proyecto frontend
 
-- Root Directory: `frontend`
-- Framework Preset: `Astro`
+- Servicio: `frontend`
+- Root: `frontend`
+- Framework: `Astro`
 - Build Command: `npm run build`
 - Output Directory: `dist`
 - Variable de producción:
 
 ```env
-PUBLIC_API_URL=https://api.campusfich2.infosist.org/api
+PUBLIC_API_URL=/api
 ```
 
 ## Proyecto backend
 
-- Root Directory: `backend`
-- Framework Preset: `Other` o detección automática de Hono
+- Servicio: `backend`
+- Root: `backend`
+- Framework: `Hono`
 - Build Command: `npm run build`
 - Entry point: `src/app.ts`
 - Runtime: Node.js
@@ -33,7 +35,7 @@ CORS_ORIGIN=https://campusfich2.infosist.org
 
 Hono se despliega sin configuración adicional cuando `src/app.ts` exporta la instancia como `default`. `src/local.ts` solo se utiliza para desarrollo local.
 
-## Dominio y CORS
+## Dominio, rewrites y CORS
 
 El dominio del frontend será:
 
@@ -53,4 +55,13 @@ Para desarrollo local:
 CORS_ORIGIN=https://campusfich2.infosist.org,http://localhost:4321
 ```
 
-El backend puede publicarse como `https://api.campusfich2.infosist.org`. Si se usa ese subdominio, el frontend debe definir `PUBLIC_API_URL=https://api.campusfich2.infosist.org/api` en las variables de Vercel.
+El rewrite público es:
+
+```text
+/api/* → backend
+/*     → frontend
+```
+
+Por eso el cliente del frontend utiliza `PUBLIC_API_URL=/api` y no necesita conocer un hostname interno. El backend no llama al frontend, por lo que no se agregó ninguna binding de servicio.
+
+El dominio público del proyecto es `https://campusfich2.infosist.org`.
